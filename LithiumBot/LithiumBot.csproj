@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AHpx.Extensions" Version="1.0.1" />
+    <PackageReference Include="Flurl.Http" Version="3.2.0" />
     <PackageReference Include="Mirai.Net" Version="2.3.0" />
     <PackageReference Include="Spectre.Console" Version="0.41.0" />
   </ItemGroup>
