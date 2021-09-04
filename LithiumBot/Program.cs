@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AHpx.Extensions.StringExtensions;
 using LithiumBot.Modules;
+using LithiumBot.Services.Main.Commands;
 using LithiumBot.Utils;
+using LithiumBot.Utils.Main;
 using Mirai.Net.Data.Messages.Receivers;
 using Mirai.Net.Modules;
 using Mirai.Net.Sessions;
 using Mirai.Net.Utils.Scaffolds;
 using Spectre.Console;
+using Spectre.Console.Cli;
 
 namespace LithiumBot
 {
@@ -21,60 +26,31 @@ namespace LithiumBot
 
         private static async Task Main(string[] args)
         {
-            MiraiBot bot = null;
-            await AnsiConsole.Status()
-                .Spinner(Spinner.Known.Star)
-                .StartAsync("Launching...", async ctx =>
-                {
-                    #region Mirai bot
+            AnsiConsole.MarkupLine("[blue]" +
+                                   "   _      _ _   _     _                 \r\n | |    (_) | | |   (_)                \r\n | |     _| |_| |__  _ _   _ _ __ ___  \r\n | |    | | __| '_ \\| | | | | '_ ` _ \\ \r\n | |____| | |_| | | | | |_| | | | | | |\r\n |______|_|\\__|_| |_|_|\\__,_|_| |_| |_|\r\n                                       \r\n                                       " +
+                                   "[/]");
+            AnsiConsole.MarkupLine("Welcome to [bold green]LithiumBot[/] [bold blue]v1.0[/]");
 
-                    AnsiConsole.MarkupLine("Creating primary MiraiBot instance...");
-                    bot = new MiraiBot
-                    {
-                        Address = "localhost:8080",
-                        QQ = "2672886221",
-                        VerifyKey = "1145141919810"
-                    };
+            var app = new CommandApp();
 
-                    await bot.LaunchAsync();
-                    AnsiConsole.MarkupLine("MiraiBot created...");
-
-
-                    #endregion
-
-                    #region Modules
-
-                    ctx.Status("Loading modules....");
-
-                    Modules = CommandScaffold.LoadCommandModules<BasicModule>().ToList();
-                    ModulesStr = string.Join("\n",
-                        Modules.Where(x => x.IsEnable is not false).Select(x => x.GetType().Name));
-                    AnsiConsole.MarkupLine(
-                        $"Following modules loaded: {ModulesStr}");
-
-                    #endregion
-
-                    #region Subscribers
-
-                    ctx.Status("Subscribing websocket notifications....");
-
-                    AnsiConsole.MarkupLine("Listening to GroupMessage...");
-
-                    bot.MessageReceived
-                        .WhereAndCast<GroupMessageReceiver>()
-                        .Subscribe(x =>
-                        {
-                            x.ExecuteCommandModules(Modules);
-                        });
-
-                    #endregion
-                });
-
-            while (!AnsiConsole.Confirm("Exit?"))
+            app.Configure(configurator =>
             {
-            }
+                configurator.AddCommand<BotCommand>("bot");
+                configurator.AddCommand<ConfigureCommand>("config");
+            });
+            
+            while (true)
+            {
+                Console.Write(">>> ");
+                await app.RunAsync(Console.ReadLine()!.Split(" "));
 
-            bot.Dispose();
+                MiraiBotUtils.MiraiBot?.MessageReceived
+                    .WhereAndCast<GroupMessageReceiver>()
+                    .Subscribe(x =>
+                    {
+                        
+                    });
+            }
         }
     }
 }

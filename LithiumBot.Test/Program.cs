@@ -1,26 +1,31 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using AHpx.Extensions.StringExtensions;
-using LithiumBot.Services.MusicServices;
-using LithiumBot.Utils;
+using LithiumBot.Data;
+using LithiumBot.Utils.Main;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NodeDeserializers;
 
 namespace LithiumBot.Test
 {
-    class Program
+    internal class Program
     {
-        static async Task Main(string[] args)
+        private static void Main(string[] args)
         {
-            var xmlStr = await File.ReadAllTextAsync(@"C:\Users\ahpx\Desktop\testxml.xml");
+            var re = MiraiBotUtils.GetMiraiConfig(
+                @"E:\Environments\Bot\config\net.mamoe.mirai-api-http\setting.yml");
 
-            var xml = XDocument.Load(new StringReader(xmlStr));
-
-            var nodes = xml.DescendantNodes().OfType<XElement>();
-
-            Console.WriteLine(nodes.First(x => x.Name.LocalName == "Lyric").Value);
+            Console.WriteLine(re.ToJsonString());
         }
     }
 }
