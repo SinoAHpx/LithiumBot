@@ -39,7 +39,7 @@ namespace LithiumBot.Modules
             var lyric = await LyricService.GetLyricAsync(string.Join(" ", parameters["track"]),
                 string.Join(" ", parameters["artist"]));
 
-            await gr.SendGroupMessageAsync($"{lyric}\r\n注意：此歌词仅为原歌词的30%。");
+            await gr.SendGroupMessageAsync($"{lyric}\r\nhttp://www.chartlyrics.com/api.aspx");
         }
 
         public bool? IsEnable { get; set; }

@@ -1,5 +1,9 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
 using AHpx.Extensions.StringExtensions;
 using LithiumBot.Services.MusicServices;
 using LithiumBot.Utils;
@@ -10,9 +14,13 @@ namespace LithiumBot.Test
     {
         static async Task Main(string[] args)
         {
-            var track = await LyricService.GetLyricAsync("Time", "Pink Floyd");
+            var xmlStr = await File.ReadAllTextAsync(@"C:\Users\ahpx\Desktop\testxml.xml");
 
-            Console.WriteLine(track.ToJsonString());
+            var xml = XDocument.Load(new StringReader(xmlStr));
+
+            var nodes = xml.DescendantNodes().OfType<XElement>();
+
+            Console.WriteLine(nodes.First(x => x.Name.LocalName == "Lyric").Value);
         }
     }
 }

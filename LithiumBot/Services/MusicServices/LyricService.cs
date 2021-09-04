@@ -1,4 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
 using AHpx.Extensions.JsonExtensions;
 using Flurl;
 using Flurl.Http;
@@ -10,16 +14,18 @@ namespace LithiumBot.Services.MusicServices
     {
         public static async Task<string> GetLyricAsync(string trackName, string artistName)
         {
-            var track = await TrackService.GetTrackAsync(trackName, artistName);
-
-            var response = await $"https://api.musixmatch.com/ws/1.1"
-                .AppendPathSegment("track.lyrics.get")
-                .SetQueryParam("apikey", APISecretsManager.MusixmatchKey)
-                .SetQueryParam("format", "json")
-                .SetQueryParam("track_id", track.Id)
+            var response = await "http://api.chartlyrics.com/apiv1.asmx"
+                .AppendPathSegment("SearchLyricDirect")
+                .SetQueryParam("artist", artistName)
+                .SetQueryParam("song", trackName)
                 .GetStringAsync();
 
-            return response.Fetch("message.body.lyrics.lyrics_body");
+            var xml = XDocument.Load(new StringReader(response));
+
+            return xml.DescendantNodes()
+                .OfType<XElement>()
+                .First(x => x.Name.LocalName == "Lyric")
+                .Value;
         }
     }
 }
