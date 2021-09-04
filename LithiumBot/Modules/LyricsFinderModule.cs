@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AHpx.Extensions.JsonExtensions;
 using AHpx.Extensions.StringExtensions;
@@ -36,10 +37,17 @@ namespace LithiumBot.Modules
                 return;
             }
 
-            var lyric = await LyricService.GetLyricAsync(string.Join(" ", parameters["track"]),
-                string.Join(" ", parameters["artist"]));
+            try
+            {
+                var lyric = await LyricService.GetLyricAsync(string.Join(" ", parameters["track"]),
+                    string.Join(" ", parameters["artist"]));
 
-            await gr.SendGroupMessageAsync($"{lyric}\r\nhttp://www.chartlyrics.com/api.aspx");
+                await gr.SendGroupMessageAsync($"{lyric}\r\nhttp://www.chartlyrics.com/api.aspx");
+            }
+            catch(Exception exception)
+            {
+                await gr.SendGroupMessageAsync($"{exception.Message}\r\n依我看来，出现这般问题大概是有许多不解罢。");
+            }
         }
 
         public bool? IsEnable { get; set; }
