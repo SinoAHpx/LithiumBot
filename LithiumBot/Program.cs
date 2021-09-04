@@ -35,8 +35,12 @@ namespace LithiumBot
 
             app.Configure(configurator =>
             {
-                configurator.AddCommand<BotCommand>("bot");
-                configurator.AddCommand<ConfigureCommand>("config");
+                configurator
+                    .AddCommand<BotCommand>("bot")
+                    .WithDescription("Bot related commands.");
+                configurator
+                    .AddCommand<ConfigureCommand>("config")
+                    .WithDescription("Configuration related commands.");
             });
             
             while (true)
