@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "LithiumBot": {
+      "commandName": "Project"
+    },
+    "WinTerminal": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Program Files\\WindowsApps\\Microsoft.WindowsTerminal_1.10.2383.0_x64__8wekyb3d8bbwe\\wt.exe",
+      "commandLineArgs": "dotnet.exe run -p \"C:\\Users\\ahpx\\source\\repos\\LithiumBot\\LithiumBot\\LithiumBot.csproj\"",
+      "workingDirectory": "C:\\Users\\ahpx\\source\\repos\\LithiumBot\\LithiumBot"
+    }
+  }
+}

@@ -39,14 +39,22 @@ namespace LithiumBot.Modules
 
             try
             {
-                var lyric = await LyricService.GetLyricAsync(string.Join(" ", parameters["track"]),
-                    string.Join(" ", parameters["artist"]));
+                var artist = string.Join(" ", parameters["artist"]);
+                var track = string.Join(" ", parameters["track"]);
+                var lyric = await LyricService.GetLyricAsync(track, artist);
 
-                await gr.SendGroupMessageAsync($"{lyric}\r\nhttp://www.chartlyrics.com/api.aspx");
+                if (lyric.IsNullOrEmpty())
+                {
+                    await gr.SendGroupMessageAsync($"料想来大约确乎是没有{track} - {artist}的歌词了。");
+                }
+                else
+                {
+                    await gr.SendGroupMessageAsync(lyric);
+                }
             }
             catch(Exception exception)
             {
-                await gr.SendGroupMessageAsync($"{exception.Message}\r\n依我看来，出现这般问题大概是有许多不解罢。");
+                await gr.SendGroupMessageAsync($"{exception.GetType().Name}\r\n依我看来，出现这般问题大概是有许多不解罢。");
             }
         }
 

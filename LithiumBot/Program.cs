@@ -47,10 +47,6 @@ namespace LithiumBot
             {
                 Console.Write(">>> ");
                 await app.RunAsync(Console.ReadLine()!.Split(" "));
-
-                MiraiBotUtils.MiraiBot?.MessageReceived
-                    .WhereAndCast<GroupMessageReceiver>()
-                    .Subscribe(x => { });
             }
         }
     }

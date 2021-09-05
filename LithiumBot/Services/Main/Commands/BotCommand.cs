@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using AHpx.Extensions.StringExtensions;
+using LithiumBot.Modules;
 using LithiumBot.Services.Main.CommandSettings;
 using LithiumBot.Utils;
 using LithiumBot.Utils.Main;
+using Mirai.Net.Data.Messages.Receivers;
 using Mirai.Net.Sessions;
+using Mirai.Net.Utils.Scaffolds;
 using Spectre.Console;
 using Spectre.Console.Cli;
 using YamlDotNet.Serialization;
@@ -53,6 +56,14 @@ namespace LithiumBot.Services.Main.Commands
                             bot.LaunchAsync();
 
                             MiraiBotUtils.MiraiBot = bot;
+                            var modules = CommandScaffold.LoadCommandModules<BasicModule>();
+
+                            MiraiBotUtils.MiraiBot?.MessageReceived
+                                .WhereAndCast<GroupMessageReceiver>()
+                                .Subscribe(x =>
+                                {
+                                    x.ExecuteCommandModules(modules);
+                                });
 
                             ConsoleReporter.Success("Bot successfully launched.");
                         }
