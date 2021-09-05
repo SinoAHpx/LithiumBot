@@ -27,7 +27,7 @@ namespace LithiumBot
         private static async Task Main(string[] args)
         {
             AnsiConsole.MarkupLine("[blue]" +
-                                   "   _      _ _   _     _                 \r\n | |    (_) | | |   (_)                \r\n | |     _| |_| |__  _ _   _ _ __ ___  \r\n | |    | | __| '_ \\| | | | | '_ ` _ \\ \r\n | |____| | |_| | | | | |_| | | | | | |\r\n |______|_|\\__|_| |_|_|\\__,_|_| |_| |_|\r\n                                       \r\n                                       " +
+                                   " _      _ _   _     _                 \r\n| |    (_) | | |   (_)                \r\n| |     _| |_| |__  _ _   _ _ __ ___  \r\n| |    | | __| '_ \\| | | | | '_ ` _ \\ \r\n| |____| | |_| | | | | |_| | | | | | |\r\n|______|_|\\__|_| |_|_|\\__,_|_| |_| |_|\r\n" +
                                    "[/]");
             AnsiConsole.MarkupLine("Welcome to [bold green]LithiumBot[/] [bold blue]v1.0[/]");
 
@@ -42,7 +42,7 @@ namespace LithiumBot
                     .AddCommand<ConfigureCommand>("config")
                     .WithDescription("Configuration related commands.");
             });
-            
+
             while (true)
             {
                 Console.Write(">>> ");
@@ -50,10 +50,7 @@ namespace LithiumBot
 
                 MiraiBotUtils.MiraiBot?.MessageReceived
                     .WhereAndCast<GroupMessageReceiver>()
-                    .Subscribe(x =>
-                    {
-                        
-                    });
+                    .Subscribe(x => { });
             }
         }
     }
