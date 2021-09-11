@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using AHpx.Extensions.IOExtensions;
 using AHpx.Extensions.StringExtensions;
 using LithiumBot.Services.Main.CommandSettings;
@@ -40,12 +42,21 @@ namespace LithiumBot.Services.Main.Commands
                 {
                     VerifyKey = verifyKey,
                     Address = address,
-                    settings.QQ
+                    settings.QQ,
+                    ApiKeys = MiraiBotUtils.GetApiKeysJsonAppendix()
                 }.ToJsonString();
 
                 MiraiBotUtils.Config.WriteAllText(configJson);
 
-                ConsoleReporter.Success($"Write config successfully, {configJson}");
+                ConsoleReporter.Warn($"Write config successfully, [bold]but you need to specify api keys.[/]");
+
+                if (Environment.OSVersion.Platform.ToString().Contains("Win"))
+                {
+                    if (AnsiConsole.Confirm("Open the config file?"))
+                    {
+                        Process.Start("explorer.exe", MiraiBotUtils.Config.FullName);
+                    }
+                }
             }
             else
             {

@@ -7,6 +7,7 @@ using AHpx.Extensions.JsonExtensions;
 using AHpx.Extensions.StringExtensions;
 using LithiumBot.Data;
 using Mirai.Net.Sessions;
+using Newtonsoft.Json;
 using YamlDotNet.Serialization;
 
 namespace LithiumBot.Utils.Main
@@ -46,13 +47,15 @@ namespace LithiumBot.Utils.Main
 
         public static LithiumConfig GetLithiumConfig()
         {
-            var json = Config.ReadAllText();
+            return JsonConvert.DeserializeObject<LithiumConfig>(Config.ReadAllText());
+        }
 
-            return new LithiumConfig
+        public static object GetApiKeysJsonAppendix()
+        {
+            return new
             {
-                Address = json.Fetch("Address"),
-                QQ = json.Fetch("QQ"),
-                VerifyKey = json.Fetch("VerifyKey")
+                Musixmatch = "",
+                News = ""
             };
         }
 

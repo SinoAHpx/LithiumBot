@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AHpx.Extensions.StringExtensions;
 using LithiumBot.Modules;
 using LithiumBot.Services.Main.Commands;
+using LithiumBot.Services.Main.CommandSettings;
 using LithiumBot.Utils;
 using LithiumBot.Utils.Main;
 using Mirai.Net.Data.Messages.Receivers;
@@ -41,6 +42,11 @@ namespace LithiumBot
                 configurator
                     .AddCommand<ConfigureCommand>("config")
                     .WithDescription("Configuration related commands.");
+                //
+                // configurator.AddBranch<ConfigureSettings>("config", branch =>
+                // {
+                //     branch.AddCommand<ApiConfigCommand>("api");
+                // });
             });
 
             while (true)

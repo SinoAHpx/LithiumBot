@@ -20,7 +20,7 @@ namespace LithiumBot.Services.MusicServices
         {
             var response = await $"https://api.musixmatch.com/ws/1.1"
                 .AppendPathSegment("artist.search")
-                .SetQueryParam("apikey", APISecretsManager.MusixmatchKey)
+                .SetQueryParam("apikey", APISecretsManager.Musixmatch)
                 .SetQueryParam("format", "json")
                 .SetQueryParam("q_artist", artistName)
                 .GetStringAsync();

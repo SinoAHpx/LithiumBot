@@ -1,4 +1,6 @@
-﻿namespace LithiumBot.Data
+﻿using Newtonsoft.Json.Linq;
+
+namespace LithiumBot.Data
 {
     public class LithiumConfig
     {
@@ -7,5 +9,7 @@
         public string QQ { get; set; }
 
         public string Address { get; set; }
+
+        public JObject ApiKeys { get; set; }
     }
 }

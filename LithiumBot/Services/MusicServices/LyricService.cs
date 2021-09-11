@@ -34,7 +34,7 @@ namespace LithiumBot.Services.MusicServices
 
                 var response1 = await $"https://api.musixmatch.com/ws/1.1"
                     .AppendPathSegment("track.lyrics.get")
-                    .SetQueryParam("apikey", APISecretsManager.MusixmatchKey)
+                    .SetQueryParam("apikey", APISecretsManager.Musixmatch)
                     .SetQueryParam("format", "json")
                     .SetQueryParam("track_id", track.Id)
                     .GetStringAsync();
